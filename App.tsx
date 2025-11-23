@@ -10,9 +10,12 @@ import Footer from './components/Footer';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-deepSpace text-textWhite font-sans selection:bg-neonPurple selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-carbon text-textWhite font-sans relative">
+      {/* Global Tech Grid Background */}
+      <div className="fixed inset-0 bg-grid-tech pointer-events-none z-0" />
+      
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <TransitionSection />
         <Pillars />

@@ -7,30 +7,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              deepSpace: '#0B0F19',
-              bgBlue: '#0F172A',
-              neonPurple: '#8A2BE2',
-              neonCyan: '#00D4FF',
-              textWhite: '#F8FAFC',
+              carbon: '#050505',
+              gunmetal: '#0F1115',
+              steel: '#1F2229',
+              industrialBlue: '#3B82F6',
+              neonPurple: '#8B5CF6', // Primary XPLO Purple
+              neonPink: '#EC4899',   // Secondary Accent from Logo
+              hologramCyan: '#00F0FF',
+              textWhite: '#EDEDED',
+              textDim: '#888888',
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
               display: ['Space Grotesk', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            backgroundImage: {
+              'grid-pattern': "linear-gradient(to right, #1f2229 1px, transparent 1px), linear-gradient(to bottom, #1f2229 1px, transparent 1px)",
             },
             animation: {
+              'scan': 'scan 4s linear infinite',
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'float': 'float 6s ease-in-out infinite',
+              'glow': 'glow 3s ease-in-out infinite',
             },
             keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
+              scan: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' },
+              },
+              glow: {
+                '0%, 100%': { textShadow: '0 0 5px rgba(139, 92, 246, 0.2)' },
+                '50%': { textShadow: '0 0 20px rgba(139, 92, 246, 0.8), 0 0 10px rgba(236, 72, 153, 0.5)' },
               }
             }
           },
@@ -39,23 +52,49 @@
     </script>
     <style>
       body {
-        background-color: #0B0F19;
-        color: #F8FAFC;
+        background-color: #050505;
+        color: #EDEDED;
         overflow-x: hidden;
       }
-      /* Custom Scrollbar */
+      
+      /* Global Noise Texture */
+      .noise-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      /* Industrial Grid */
+      .bg-grid-tech {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      }
+
+      /* Scrollbar */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #0B0F19;
+        background: #050505;
       }
       ::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 4px;
+        background: #333;
+        border-radius: 0px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #8A2BE2;
+        background: #8B5CF6; /* Neon Purple Hover */
+      }
+      
+      .selection-highlight::selection {
+        background-color: #8B5CF6;
+        color: white;
       }
     </style>
   <script type="importmap">
@@ -70,7 +109,8 @@
 }
 </script>
 </head>
-  <body>
+  <body class="selection-highlight">
+    <div class="noise-overlay"></div>
     <div id="root"></div>
   </body>
 </html>
